@@ -166,6 +166,7 @@ export default function DashboardComponent() {
       if (data && data.data) {
         setOpenModel(false);
         setOpenSuccessModel(true);
+        fetchUserPortfolioProfile(userName)
       } else {
         console.log("Unexpected response structure");
       }
