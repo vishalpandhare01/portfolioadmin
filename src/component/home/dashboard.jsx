@@ -15,6 +15,7 @@ import UserProfileComponent from "./profile";
 import axios from "axios";
 import ErrorBoundary from "./ErrorBoundary"; // Import the ErrorBoundary component
 import Link from "next/link";
+import UploadAnimation from "../share/upload";
 
 export default function DashboardComponent() {
   const [userName, setUserName] = useState("");
@@ -127,6 +128,7 @@ export default function DashboardComponent() {
       setportfolioDataSubmission={setportfolioDataSubmission}
       portfolioDataSubmission={portfolioDataSubmission}
     />,
+   
   ];
 
   const handleSaveProfile = async () => {
@@ -204,22 +206,20 @@ export default function DashboardComponent() {
 
   const Component = () => (
     <>
-      <p className="absolute">
+      <p className="text-end">
         Note:- We dont have AWS budget yet but we will get soon you can use{" "}
         <a className="text-blue-500" href="https://postimages.org/" target="_blank">
           Postimage
         </a>{" "}
         to upload image and get link
       </p>
-      <Box sx={{ width: "100%" }}>
-        <LinearProgress variant="determinate" value={profileUploadProgress} />
-      </Box>
       {submissionComponent[contentNumber]}
       <Box
         width="100%"
         display="flex"
         justifyContent="space-around"
         flexWrap="wrap"
+        marginTop="-60px"
       >
         {contentNumber !== 0 && (
           <Button
@@ -317,7 +317,7 @@ export default function DashboardComponent() {
         <CustomModal
           open={openModel}
           setOpen={setOpenModel}
-          content={<Component />}
+          content={ !isUploading ? <Component /> : <UploadAnimation/>}
         />
       </Box>
     </ErrorBoundary>
