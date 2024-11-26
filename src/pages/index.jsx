@@ -5,10 +5,15 @@ import { useEffect, useState } from "react";
 import SignupComponent from "@/component/auth/singup";
 import { useRouter } from "next/router";
 import DashboardComponent from "@/component/home/dashboard";
+import axios from "axios";
+import { baseUrl } from "@/const/baseurl";
+import CircularColor from "@/component/share/loading";
+import { Box } from "@mui/material";
 
 export default function Home() {
   const [SingUPage, SingUpPage] = useState(false);
   const [showDashBord, setShowDashBord] = useState(false);
+  const [isApiReady, setIsApiReady] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -20,6 +25,27 @@ export default function Home() {
     } else {
     }
   }, [router]);
+
+  function handleStartApis(){
+    try {
+      axios.get(baseUrl).then((res) => {
+        setIsApiReady(false);
+      });
+    } catch (error) {}
+  }
+
+  useEffect(() => {
+    handleStartApis()
+  }, []);
+
+  if (isApiReady) {
+    handleStartApis()
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center">
+        <CircularColor />
+      </Box>
+    );
+  }
 
   if (showDashBord) {
     return <DashboardComponent />;
