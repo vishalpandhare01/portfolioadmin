@@ -100,7 +100,7 @@ export default function DashboardComponent() {
       const data = await response.json();
       if (data && data.data) {
         setUserProfileData(data.data);
-        setportfolioDataSubmission(data.data)
+        setportfolioDataSubmission(data.data);
       }
     } catch (error) {
       console.error("Error fetching user portfolio profile:", error);
@@ -129,6 +129,10 @@ export default function DashboardComponent() {
       setportfolioDataSubmission={setportfolioDataSubmission}
       portfolioDataSubmission={portfolioDataSubmission}
     />,
+    <div style={{height:"90vh",overflow:"scroll" , padding:"5px"}}>
+        <h4 className="text-xl bg-yellow-500 absolute rounded-lg p-3"> did you save everything check ?</h4>
+      <UserProfileComponent data={portfolioDataSubmission} />
+    </div>,
   ];
 
   const handleSaveProfile = async () => {
@@ -270,7 +274,7 @@ export default function DashboardComponent() {
             variant="contained"
             onClick={() => setOpenModel(true)}
           >
-           {userProfileData ? "Edit":"Create" } Portfolio
+            {userProfileData ? "Edit" : "Create"} Portfolio
           </Button>
         </Box>
         {!userProfileData && (
