@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, CircularProgress, Snackbar, Alert } from '@mui/material';
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, CircularProgress, Snackbar, Alert, Input } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useRouter } from 'next/router';
 import { baseUrl } from '@/const/baseurl';
+import CustomModal from '@/component/share/model';
+import LocationDetector from '@/component/admin/location';
 
 const ContactsPage = () => {
   const [contacts, setContacts] = useState([]);  // Initialize as an empty array
@@ -11,7 +13,9 @@ const ContactsPage = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false); // For showing snackbar messages
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success'); // Severity for snackbar
+  const [key,setKey] = useState("")
   const router = useRouter();
+  const [open ,setOpen] = useState(false)
 
   const token = sessionStorage.getItem('token'); // Retrieve token from sessionStorage
 
@@ -93,7 +97,7 @@ const ContactsPage = () => {
 
   // Handle location view click
   const handleViewLocation = (location) => {
-    alert(`Viewing location: ${location}`);
+   setOpen(true)
   };
 
   // Fetch contacts when the token changes or the component mounts
@@ -111,8 +115,9 @@ const ContactsPage = () => {
           <CircularProgress />
         </div>
       )}
-
+     <CustomModal open={open} setOpen={setOpen} content={<LocationDetector key={key} latitude="20.593683" longitude="78.962883"/>}/>
       {/* Contacts Table */}
+      <Input fullWidth placeholder='Api key of google map to see loaction' type="text" onChange={(e)=>setKey(e.target.value)} />
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -121,6 +126,8 @@ const ContactsPage = () => {
               <TableCell><strong>Email</strong></TableCell>
               <TableCell><strong>Phone</strong></TableCell>
               <TableCell><strong>Message</strong></TableCell>
+              <TableCell><strong>Time</strong></TableCell>
+              <TableCell><strong>IpAddrees</strong></TableCell>
               <TableCell><strong>Actions</strong></TableCell>
             </TableRow>
           </TableHead>
@@ -132,6 +139,8 @@ const ContactsPage = () => {
                   <TableCell>{contact.Email}</TableCell>
                   <TableCell>{contact.Phone}</TableCell>
                   <TableCell>{contact.Message}</TableCell>
+                  <TableCell>{contact.createdAt}</TableCell>
+                  <TableCell>{contact.IpAdress}</TableCell>
                   <TableCell>
                     <IconButton
                       color="primary"

@@ -100,6 +100,7 @@ export default function DashboardComponent() {
       const data = await response.json();
       if (data && data.data) {
         setUserProfileData(data.data);
+        setportfolioDataSubmission(data.data)
       }
     } catch (error) {
       console.error("Error fetching user portfolio profile:", error);
@@ -128,7 +129,6 @@ export default function DashboardComponent() {
       setportfolioDataSubmission={setportfolioDataSubmission}
       portfolioDataSubmission={portfolioDataSubmission}
     />,
-   
   ];
 
   const handleSaveProfile = async () => {
@@ -168,7 +168,7 @@ export default function DashboardComponent() {
       if (data && data.data) {
         setOpenModel(false);
         setOpenSuccessModel(true);
-        fetchUserPortfolioProfile(userName)
+        fetchUserPortfolioProfile(userName);
       } else {
         console.log("Unexpected response structure");
       }
@@ -208,7 +208,11 @@ export default function DashboardComponent() {
     <>
       <p className="text-end">
         Note:- We dont have AWS budget yet but we will get soon you can use{" "}
-        <a className="text-blue-500" href="https://postimages.org/" target="_blank">
+        <a
+          className="text-blue-500"
+          href="https://postimages.org/"
+          target="_blank"
+        >
           Postimage
         </a>{" "}
         to upload image and get link
@@ -260,17 +264,15 @@ export default function DashboardComponent() {
             Hello <b>{userName}</b> Welcome to Dashboard !!!
           </Typography>
         </Box>
-        {!userProfileData && (
-          <Box>
-            <Button
-              style={{ margin: "10px" }}
-              variant="contained"
-              onClick={() => setOpenModel(true)}
-            >
-              Create Portfolio
-            </Button>
-          </Box>
-        )}
+        <Box>
+          <Button
+            style={{ margin: "10px" }}
+            variant="contained"
+            onClick={() => setOpenModel(true)}
+          >
+           {userProfileData ? "Edit":"Create" } Portfolio
+          </Button>
+        </Box>
         {!userProfileData && (
           <Box
             height="50vh"
@@ -317,7 +319,7 @@ export default function DashboardComponent() {
         <CustomModal
           open={openModel}
           setOpen={setOpenModel}
-          content={ !isUploading ? <Component /> : <UploadAnimation/>}
+          content={!isUploading ? <Component /> : <UploadAnimation />}
         />
       </Box>
     </ErrorBoundary>
