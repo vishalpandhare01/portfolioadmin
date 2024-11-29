@@ -26,27 +26,6 @@ export default function Home() {
     }
   }, [router]);
 
-  function handleStartApis(){
-    try {
-      axios.get(baseUrl).then((res) => {
-        setIsApiReady(false);
-      });
-    } catch (error) {}
-  }
-
-  useEffect(() => {
-    handleStartApis()
-  }, []);
-
-  if (isApiReady) {
-    handleStartApis()
-    return (
-      <Box display="flex" justifyContent="center" alignItems="center">
-        <CircularColor />
-      </Box>
-    );
-  }
-
   if (showDashBord) {
     return <DashboardComponent />;
   }
